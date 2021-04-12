@@ -63,10 +63,58 @@ def home_page() -> render_template:
         'index.html',
         img1=get_image_attr(0),
         img2=get_image_attr(1),
-        img3=get_image_attr(2)
+        img3=get_image_attr(2),
     )
 
 
-@app.route('/picture/<image>')
-def first_image(image):
-    return get_img_template_values(image, 0, 'first_image.html')
+@app.route('/picture/<image1>')
+def first_image(image1) -> render_template:
+    """
+    Returns a 'render_template' object which will construct the
+    page for the first image on the main page.
+
+    *image -- the variable which updates the pathname for the decorator.
+    """
+    filename = get_image_attr(0)['id']
+    with Image.open(f'static/images/{filename}.jpg') as this_im:
+        return render_template(
+            'first_image.html',
+            img1=get_image_attr(0),
+            image1=image1,
+            format=this_im.format,
+            mode=this_im.mode,
+            width=this_im.size[0],
+            height=this_im.size[1]
+        )
+
+
+@app.route('/picture/<image2>')
+def second_image(image2):
+    """
+    Returns a 'render_template' object which will construct the
+    page for the second image on the main page.
+
+    *image -- the variable which updates the pathname for the decorator.
+    """
+    filename = get_image_attr(1)['id']
+    with Image.open(f'static/images/{filename}.jpg') as this_im:
+        return render_template(
+            'second_image.html',
+            img2=get_image_attr(1),
+            image2=image2,
+            format=this_im.format,
+            mode=this_im.mode,
+            width=this_im.size[0],
+            height=this_im.size[1]
+        )
+
+
+@app.route('/picture/<image3>')
+def third_image(image3):
+    """
+    Returns a 'render_template' object which will construct the
+    page for the third image on the main page.
+
+    *image -- the variable which updates the pathname for the decorator.
+    """
+    return get_img_template_values(image3, 2, 'third_image.html')
