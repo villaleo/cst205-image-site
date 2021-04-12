@@ -1,3 +1,4 @@
+{{bootstrap.load_css()}}
 <html lang="en">
 
 <head>
@@ -8,7 +9,14 @@
 </head>
 
 <body>
-
+    <div class="container">
+        <h1>{{im2['title']}} by {{img['credit']}}</h1>
+        <img src="/static/images/{{img2['id']}}.jpg" alt="TEST">
+        <p>
+            <br> {{mode}} image in {{format}} format with width {{width}} and height {{height}}.
+            <br> <br> <a href="{{url_for('home_page')}}">« Back to list of images</a>
+        </p>
+    </div>
 </body>
 
 </html>
