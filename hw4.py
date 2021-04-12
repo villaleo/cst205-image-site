@@ -1,8 +1,6 @@
 # -----------------------------------------
 # Author: Leonardo Villalobos
 # Date: 4/12/2021
-# Instructor: Professor Avner Biblarz
-# Course: CST-205
 # Description: TODO: set description
 # -----------------------------------------
 from flask import Flask, render_template
