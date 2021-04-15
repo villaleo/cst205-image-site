@@ -11,9 +11,29 @@
 <body>
     <div class="container">
         <h1>CST 205 Random Picture Gallery</h1>
-        <p><a href="{{url_for('first_image', image1=img1['id'])}}">{{img1['title']}}</a></p>
-        <p><a href="{{url_for('second_image', image2=img2['id'])}}">{{img2['title']}}</a></p>
-        <p><a href="{{url_for('third_image', image3=img3['id'])}}">{{img3['title']}}</a></p>
+        <p>
+            <a href="{{url_for('display_images', id=img1['id'])}}">{{img1['title']}}</a>
+        </p>
+        <a href="{{url_for('display_images', id=img1['id'])}}">
+            <img src="/static/images/{{img1['id']}}.jpg" width="350" height="230" alt="first_image">
+        </a>
+        <p>
+            <a href="{{url_for('display_images', id=img2['id'])}}">{{img2['title']}}</a>
+        </p>
+        <a href="{{url_for('display_images', id=img2['id'])}}">
+            <img src="/static/images/{{img2['id']}}.jpg" width="350" height="230" alt="second_image">
+        </a>
+        <p>
+            <a href="{{url_for('display_images', id=img3['id'])}}">{{img3['title']}}</a>
+        </p>
+        <a href="{{url_for('display_images', id=img3['id'])}}">
+            <img src="/static/images/{{img3['id']}}.jpg" width="350" height="230" alt="third_image">
+        </a>
+    </div>
+    <div>
+        <p>
+            <!-- Intentionally empty. -->
+        </p>
     </div>
 
 </body>
