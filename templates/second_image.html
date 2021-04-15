@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Picture Gallery</title>
 </head>
 
 <body>
     <div class="container">
-        <h1>{{im2['title']}} by {{img['credit']}}</h1>
-        <img src="/static/images/{{img2['id']}}.jpg" alt="TEST">
+        <h1>{{attr['title']}} by {{attr['credit']}}</h1>
+        <img src="/static/images/{{attr['id']}}.jpg" alt="TEST">
         <p>
             <br> {{mode}} image in {{format}} format with width {{width}} and height {{height}}.
             <br> <br> <a href="{{url_for('home_page')}}">« Back to list of images</a>
