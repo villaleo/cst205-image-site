@@ -1,7 +1,10 @@
 # -----------------------------------------
 # Author: Leonardo Villalobos
-# Date: 4/12/2021
-# Description: TODO: set description
+# Date: 4/14/2021
+# Description: A webpage which displays
+# three random images from a given image
+# metadata structure using Flask, Bootstrap,
+# and Pillow.
 # -----------------------------------------
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
@@ -14,7 +17,7 @@ bootstrap = Bootstrap(app)
 data = image_info.image_info
 
 
-def get_image_attr(index: int) -> dict:
+def access_image_data(index: int) -> dict:
     """
     Returns the attributes of an image at the given 'index'.
 
@@ -26,26 +29,26 @@ def get_image_attr(index: int) -> dict:
     }
 
 
-def get_img_template_values(image, index: int, html_file: str) -> render_template:
+def get_image_attributes(image, index: int, html_file: str) -> dict:
     """
-    Returns a 'render_template' object with the attribute parameters
-    of the image at position 'index' within 'data'.
+    Returns a dictionary with the attributes of the image at position
+    'index'.
 
     *image -- the argument passed into the webpage function and decorator.
     *index: int -- an image index, bound by 0 ≤ index ≤ 9.
-    *html_file: str -- the HTML file which the webpage function will open.
+    *html_file: str -- the HTML file which the webpage function will access.
     """
-    filename = get_image_attr(index)['id']
+    filename = access_image_data(index)['id']
     with Image.open(f'static/images/{filename}.jpg') as this_im:
-        return render_template(
-            html_file,
-            img=get_image_attr(index),
-            image=image,
-            format=this_im.format,
-            mode=this_im.mode,
-            width=this_im.size[0],
-            height=this_im.size[1]
-        )
+        return {
+            'file': html_file,
+            'attr': access_image_data(index),
+            'image': image,
+            'format': this_im.format,
+            'mode': this_im.mode,
+            'width': this_im.size[0],
+            'height': this_im.size[1]
+        }
 
 
 @app.route('/')
@@ -59,60 +62,44 @@ def home_page() -> render_template:
     # will shuffle each time the webpage reloads.
     return render_template(
         'index.html',
-        img1=get_image_attr(0),
-        img2=get_image_attr(1),
-        img3=get_image_attr(2),
+        img1=access_image_data(0),
+        img2=access_image_data(1),
+        img3=access_image_data(2),
     )
 
 
-@app.route('/picture/<image1>')
-def first_image(image1) -> render_template:
-    """
-    Returns a 'render_template' object which will construct the
-    page for the first image on the main page.
-
-    *image -- the variable which updates the pathname for the decorator.
-    """
-    filename = get_image_attr(0)['id']
-    with Image.open(f'static/images/{filename}.jpg') as this_im:
+@app.route('/picture/<id>')
+def display_images(id) -> render_template:
+    image_1 = get_image_attributes(id, 0, 'first_image.html')
+    image_2 = get_image_attributes(id, 1, 'second_image.html')
+    image_3 = get_image_attributes(id, 2, 'third_image.html')
+    if id == image_1['attr']['id']:
         return render_template(
-            'first_image.html',
-            img1=get_image_attr(0),
-            image1=image1,
-            format=this_im.format,
-            mode=this_im.mode,
-            width=this_im.size[0],
-            height=this_im.size[1]
+            image_1['file'],
+            attr=image_1['attr'],
+            id=image_1['image'],
+            format=image_1['format'],
+            mode=image_1['mode'],
+            width=image_1['width'],
+            height=image_1['height']
         )
-
-
-@app.route('/picture/<image2>')
-def second_image(image2):
-    """
-    Returns a 'render_template' object which will construct the
-    page for the second image on the main page.
-
-    *image -- the variable which updates the pathname for the decorator.
-    """
-    filename = get_image_attr(1)['id']
-    with Image.open(f'static/images/{filename}.jpg') as this_im:
+    elif id == image_2['attr']['id']:
         return render_template(
-            'second_image.html',
-            img2=get_image_attr(1),
-            image2=image2,
-            format=this_im.format,
-            mode=this_im.mode,
-            width=this_im.size[0],
-            height=this_im.size[1]
+            image_2['file'],
+            attr=image_2['attr'],
+            id=image_2['image'],
+            format=image_2['format'],
+            mode=image_2['mode'],
+            width=image_2['width'],
+            height=image_2['height']
         )
-
-
-@app.route('/picture/<image3>')
-def third_image(image3):
-    """
-    Returns a 'render_template' object which will construct the
-    page for the third image on the main page.
-
-    *image -- the variable which updates the pathname for the decorator.
-    """
-    return get_img_template_values(image3, 2, 'third_image.html')
+    else:
+        return render_template(
+            image_3['file'],
+            attr=image_3['attr'],
+            id=image_3['image'],
+            format=image_3['format'],
+            mode=image_3['mode'],
+            width=image_3['width'],
+            height=image_3['height']
+        )
